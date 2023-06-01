@@ -2,6 +2,10 @@ import 'package:ecomm/db/postgres.dart';
 import 'package:ecomm/pages/add_product.dart';
 import 'package:ecomm/pages/cart.dart';
 import 'package:ecomm/pages/my_account.dart';
+import 'package:ecomm/pages/single_product.dart';
+import 'package:ecomm/widgets/large_text.dart';
+import 'package:ecomm/widgets/medium_text.dart';
+import 'package:ecomm/widgets/price_text.dart';
 import 'package:flutter/material.dart';
 
 void main() async {
@@ -24,105 +28,46 @@ class MyApp extends StatefulWidget {
 class _MyAppState extends State<MyApp> {
   @override
   Widget build(BuildContext context) {
+    // const snackBar = SnackBar(content: Text("Clicked"));
+
     return Scaffold(
       appBar: AppBar(
-          title: const Text("Awesome Store",
-              style: TextStyle(
-                  color: Colors.black,
-                  fontSize: 20,
-                  fontWeight: FontWeight.bold)),
+          title: LargeText(text: "Awesome Store"),
           backgroundColor: Colors.white,
           iconTheme: const IconThemeData(color: Colors.black54, size: 30)),
       drawer: const NavDrawer(),
-      body: SingleChildScrollView(
-        physics: const ScrollPhysics(),
-        child: Column(
-          children: [
-            const Padding(
-              padding: EdgeInsets.only(top: 20, left: 20, bottom: 10),
-              child: Align(
-                alignment: Alignment.centerLeft,
-                child: Text("Awesome Products to Use in Eternity",
-                    style:
-                        TextStyle(fontWeight: FontWeight.bold, fontSize: 18)),
-              ),
-            ),
-            FutureBuilder(
-                future: PostGres.getData(),
-                builder: (context, AsyncSnapshot snapshot) {
-                  if (snapshot.connectionState == ConnectionState.waiting) {
-                    return const Center(
-                        child: CircularProgressIndicator.adaptive());
-                  } else if (snapshot.hasData) {
-                    return SizedBox(
-                      child: ListView.builder(
-                        shrinkWrap: true,
-                        physics: const NeverScrollableScrollPhysics(),
-                        itemCount: snapshot.data.length,
-                        itemBuilder: (context, index) {
-                          return Padding(
-                            padding: const EdgeInsets.only(
-                                left: 20, right: 20, top: 10, bottom: 10),
-                            child: Container(
-                              height: 350,
-                              decoration: BoxDecoration(
-                                  color: Colors.white,
-                                  border: Border.all(color: Colors.grey),
-                                  boxShadow: const [
-                                    BoxShadow(color: Colors.grey, blurRadius: 2)
-                                  ],
-                                  borderRadius: BorderRadius.circular(10)),
-                              child: Column(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceEvenly,
-                                  children: [
-                                    Padding(
-                                      padding: const EdgeInsets.only(
-                                          left: 10, right: 10),
-                                      child: Align(
-                                        alignment: Alignment.centerLeft,
-                                        child: Text(
-                                          snapshot.data[index]["title"],
-                                          maxLines: 2,
-                                          style: const TextStyle(
-                                              fontSize: 15,
-                                              fontWeight: FontWeight.w500),
-                                        ),
-                                      ),
-                                    ),
-                                    Image.network(
-                                      snapshot.data[index]["image"],
-                                      width: double.maxFinite,
-                                      height: 250,
-                                      fit: BoxFit.cover,
-                                    ),
-                                    Padding(
-                                      padding: const EdgeInsets.only(right: 20),
-                                      child: Align(
-                                          alignment: Alignment.centerRight,
-                                          child: Text(
-                                            "GHC ${snapshot.data[index]["price"].toString()}",
-                                            style: const TextStyle(
-                                                color: Color(0xFF869013),
-                                                fontWeight: FontWeight.bold,
-                                                fontSize: 20),
-                                          )),
-                                    )
-                                  ]),
-                            ),
-                          );
-                        },
-                      ),
-                    );
-                  } else {
-                    return const Center(child: Text("data not found"));
-                  }
-                })
-          ],
-        ),
+      body: FutureBuilder(
+        future: PostGres.getData(),
+        builder: (context, AsyncSnapshot snapshot) {
+          if (snapshot.connectionState == ConnectionState.waiting) {
+            return const Center(child: CircularProgressIndicator.adaptive());
+          } else if (snapshot.hasData) {
+            return Padding(
+              padding: const EdgeInsets.only(top: 20, left: 10, right: 10),
+              child: GridView.builder(
+                  gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(
+                      maxCrossAxisExtent: 200,
+                      crossAxisSpacing: 15,
+                      childAspectRatio: 2 / 2.8,
+                      mainAxisSpacing: 15),
+                  itemCount: snapshot.data.length,
+                  itemBuilder: (context, index) => Container(
+                        child: Column(
+                          children: [
+                            MediumText(text: snapshot.data[index]["title"])
+                          ],
+                        ),
+                        decoration: BoxDecoration(color: Colors.green),
+                      )),
+            );
+          } else {
+            return Center(child: MediumText(text: "Data not Found"));
+          }
+        },
       ),
       floatingActionButton: SizedBox(
-        width: 80,
+        width: 55,
+        height: 55,
         child: FittedBox(
           child: FloatingActionButton(
               backgroundColor: const Color(0xFF9DA53F),
@@ -130,7 +75,7 @@ class _MyAppState extends State<MyApp> {
                 "Add Products",
                 textAlign: TextAlign.center,
                 style: TextStyle(
-                    fontSize: 8,
+                    fontSize: 10,
                     color: Colors.black,
                     fontWeight: FontWeight.w500),
               ),
@@ -155,13 +100,13 @@ class NavDrawer extends StatelessWidget {
       backgroundColor: Colors.white,
       child: ListView(
         children: [
-          const UserAccountsDrawerHeader(
-            currentAccountPicture: CircleAvatar(
+          UserAccountsDrawerHeader(
+            currentAccountPicture: const CircleAvatar(
                 backgroundColor: Colors.white,
                 child: Icon(Icons.person, color: Colors.blueGrey)),
-            accountName: Text("John Doe"),
-            accountEmail: Text("johndoe@email.com"),
-            decoration: BoxDecoration(color: Colors.blueGrey),
+            accountName: MediumText(text: "John Doe"),
+            accountEmail: MediumText(text: "johndoe@email.com"),
+            decoration: const BoxDecoration(color: Colors.blueGrey),
           ),
           Container(
             width: double.maxFinite,
@@ -169,57 +114,45 @@ class NavDrawer extends StatelessWidget {
             child: Column(
               children: [
                 ListTile(
-                  titleAlignment: ListTileTitleAlignment.center,
-                  leading:
-                      const Icon(Icons.home, color: Colors.black54, size: 35),
-                  onTap: () => Navigator.of(context).pushReplacement(
-                      MaterialPageRoute(builder: (context) => const MyApp())),
-                  minLeadingWidth: 0,
-                  title: const Text("Home",
-                      style:
-                          TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
-                ),
+                    titleAlignment: ListTileTitleAlignment.center,
+                    leading:
+                        const Icon(Icons.home, color: Colors.black54, size: 35),
+                    onTap: () => Navigator.of(context).pushReplacement(
+                        MaterialPageRoute(builder: (context) => const MyApp())),
+                    minLeadingWidth: 0,
+                    title: LargeText(text: "Home")),
                 const SizedBox(height: 10),
                 ListTile(
-                  titleAlignment: ListTileTitleAlignment.center,
-                  leading: const Icon(Icons.shopping_cart_checkout,
-                      color: Colors.black54, size: 35),
-                  onTap: () {
-                    Navigator.pop(context);
-                    Navigator.of(context).push(
-                        MaterialPageRoute(builder: (context) => const Cart()));
-                  },
-                  minLeadingWidth: 0,
-                  title: const Text("Cart",
-                      style:
-                          TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
-                ),
+                    titleAlignment: ListTileTitleAlignment.center,
+                    leading: const Icon(Icons.shopping_cart_checkout,
+                        color: Colors.black54, size: 35),
+                    onTap: () {
+                      Navigator.pop(context);
+                      Navigator.of(context).push(MaterialPageRoute(
+                          builder: (context) => const Cart()));
+                    },
+                    minLeadingWidth: 0,
+                    title: LargeText(text: "Cart")),
                 const SizedBox(height: 10),
                 ListTile(
-                  titleAlignment: ListTileTitleAlignment.center,
-                  leading:
-                      const Icon(Icons.person, color: Colors.black54, size: 35),
-                  onTap: () {
-                    Navigator.pop(context);
-                    Navigator.of(context).push(MaterialPageRoute(
-                        builder: (context) => const MyAccount()));
-                  },
-                  minLeadingWidth: 0,
-                  title: const Text("My Account",
-                      style:
-                          TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
-                ),
+                    titleAlignment: ListTileTitleAlignment.center,
+                    leading: const Icon(Icons.person,
+                        color: Colors.black54, size: 35),
+                    onTap: () {
+                      Navigator.pop(context);
+                      Navigator.of(context).push(MaterialPageRoute(
+                          builder: (context) => const MyAccount()));
+                    },
+                    minLeadingWidth: 0,
+                    title: LargeText(text: "My Account")),
                 const SizedBox(height: 10),
                 ListTile(
-                  titleAlignment: ListTileTitleAlignment.center,
-                  leading:
-                      const Icon(Icons.logout, color: Colors.black54, size: 35),
-                  onTap: () {},
-                  minLeadingWidth: 0,
-                  title: const Text("Logout",
-                      style:
-                          TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
-                ),
+                    titleAlignment: ListTileTitleAlignment.center,
+                    leading: const Icon(Icons.logout,
+                        color: Colors.black54, size: 35),
+                    onTap: () {},
+                    minLeadingWidth: 0,
+                    title: LargeText(text: "Logout")),
               ],
             ),
           )
