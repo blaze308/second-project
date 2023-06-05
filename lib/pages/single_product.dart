@@ -1,5 +1,9 @@
+import 'package:ecomm/db/postgres.dart';
 import 'package:ecomm/main.dart';
+import 'package:ecomm/widgets/large_text.dart';
 import 'package:flutter/material.dart';
+import '../widgets/medium_text.dart';
+import '../widgets/price_text.dart';
 
 class SingleProduct extends StatefulWidget {
   const SingleProduct({required this.snapshot, required this.index, super.key});
@@ -14,23 +18,137 @@ class _SingleProductState extends State<SingleProduct> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text("Single Product")),
+      appBar: const MyAppBar(),
+      // appBar: AppBar(),
       // drawer: const NavDrawer(),
-      body: Container(
-        width: double.maxFinite,
-        // child: Text(widget.snapshot.data[widget.index]["title"]),
-        child: Column(children: [
-          Row(
-            children: [
-              Image.network(
-                widget.snapshot.data[widget.index]["image"],
-                width: 200,
-              ),
-              Text(widget.snapshot.data[widget.index]["title"]),
-              Text(widget.snapshot.data[widget.index]["price"].toString())
-            ],
+      body: ListView(
+        children: [
+          SizedBox(
+              width: double.maxFinite,
+              height: 250,
+              child: Padding(
+                padding: const EdgeInsets.all(10),
+                child: ClipRRect(
+                    borderRadius: BorderRadius.circular(10),
+                    child: Image.network(
+                      widget.snapshot.data[widget.index]["image"],
+                      fit: BoxFit.cover,
+                    )),
+              )),
+          Padding(
+            padding: const EdgeInsets.only(top: 10, left: 10),
+            child: LargeText(
+                text: widget.snapshot.data[widget.index]["title"],
+                maxLines: 3,
+                textStyle:
+                    const TextStyle(fontWeight: FontWeight.w500, fontSize: 18)),
+          ),
+          Padding(
+            padding: const EdgeInsets.only(top: 10, left: 10),
+            child: PriceText(
+              text: "GHC ${widget.snapshot.data[widget.index]["price"]}"
+                  .toString(),
+              textStyle: const TextStyle(
+                  fontSize: 20,
+                  fontWeight: FontWeight.bold,
+                  color: Color(0xFF869013)),
+            ),
+          ),
+          SizedBox(
+            width: double.maxFinite,
+            child: Padding(
+              padding: const EdgeInsets.only(top: 10, left: 10),
+              child: MediumText(
+                  text: widget.snapshot.data[widget.index]["description"],
+                  maxLines: 7),
+            ),
+          ),
+          Padding(
+            padding: const EdgeInsets.only(top: 20, left: 10),
+            child: LargeText(text: "Similar and Related Products "),
+          ),
+          FutureBuilder(
+            future: PostGres.getCategory(
+                widget.snapshot.data[widget.index]["category"]),
+            builder: (context, AsyncSnapshot snapshot) {
+              if (snapshot.connectionState == ConnectionState.waiting) {
+                return const Center(
+                  child: CircularProgressIndicator.adaptive(),
+                );
+              } else if (snapshot.hasData) {
+                return SingleChildScrollView(
+                  child: Padding(
+                    padding: const EdgeInsets.all(10),
+                    child: GridView.builder(
+                      physics: const NeverScrollableScrollPhysics(),
+                      shrinkWrap: true,
+                      gridDelegate:
+                          const SliverGridDelegateWithMaxCrossAxisExtent(
+                        maxCrossAxisExtent: 200,
+                        crossAxisSpacing: 10,
+                        childAspectRatio: 2 / 2.8,
+                        mainAxisSpacing: 15,
+                      ),
+                      itemCount: snapshot.data.length,
+                      itemBuilder: (context, index) {
+                        return GestureDetector(
+                          onTap: () {
+                            Navigator.of(context).push(MaterialPageRoute(
+                              builder: (context) => SingleProduct(
+                                  snapshot: snapshot, index: index),
+                            ));
+                          },
+                          child: Container(
+                            decoration: BoxDecoration(
+                                color: Colors.white,
+                                borderRadius: BorderRadius.circular(5),
+                                boxShadow: const [
+                                  BoxShadow(color: Colors.grey, blurRadius: 2)
+                                ]),
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                              children: [
+                                Padding(
+                                  padding: const EdgeInsets.only(left: 10),
+                                  child: Align(
+                                      alignment: Alignment.centerLeft,
+                                      child: MediumText(
+                                          text: snapshot.data[index]["title"])),
+                                ),
+                                SizedBox(
+                                  height: 150,
+                                  width: double.maxFinite,
+                                  child: Image.network(
+                                    snapshot.data[index]["image"],
+                                    fit: BoxFit.cover,
+                                  ),
+                                ),
+                                Padding(
+                                  padding: const EdgeInsets.only(right: 10),
+                                  child: Align(
+                                    alignment: Alignment.centerRight,
+                                    child: PriceText(
+                                        text:
+                                            "GHC ${snapshot.data[index]["price"]}"
+                                                .toString()),
+                                  ),
+                                )
+                              ],
+                            ),
+                          ),
+                        );
+                      },
+                    ),
+                  ),
+                );
+              } else {
+                return const Center(
+                  child: Text("error😣: Data Not Found"),
+                );
+              }
+            },
           )
-        ]),
+        ],
       ),
     );
   }

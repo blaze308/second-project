@@ -5,8 +5,10 @@ import 'package:flutter/material.dart';
 class PriceText extends StatelessWidget {
   Color? color;
   final String text;
-  double size = 25;
+  TextStyle textStyle;
   PriceText({
+    this.textStyle = const TextStyle(
+        fontSize: 16, fontFamily: "Inter", fontWeight: FontWeight.bold),
     super.key,
     this.color = const Color(0xFF869013),
     required this.text,
@@ -16,7 +18,7 @@ class PriceText extends StatelessWidget {
   Widget build(BuildContext context) {
     return Text(
       text,
-      style: const TextStyle(fontFamily: "Inter", fontWeight: FontWeight.bold),
+      style: textStyle,
     );
   }
 }
