@@ -45,6 +45,7 @@ class _SingleProductState extends State<SingleProduct> {
           ),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               Padding(
                 padding: const EdgeInsets.only(top: 10, left: 10),
@@ -52,24 +53,41 @@ class _SingleProductState extends State<SingleProduct> {
                   text: "GHC ${widget.snapshot.data[widget.index]["price"]}"
                       .toString(),
                   textStyle: const TextStyle(
-                      fontSize: 20,
+                      fontSize: 19,
                       fontWeight: FontWeight.bold,
                       color: Color(0xFF869013)),
                 ),
               ),
-              Row(children: [
-                IconButton(
-                    onPressed: () {},
-                    icon: const Icon(Icons.remove_circle,
-                        color: Colors.redAccent, size: 30)),
-                const Badge(
-                  child: Icon(Icons.shopping_cart, color: Colors.blueGrey),
+              Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    IconButton(
+                        onPressed: () {},
+                        icon: const Icon(Icons.remove_circle,
+                            color: Colors.redAccent, size: 25)),
+                    const Badge(
+                      child: Icon(Icons.shopping_cart, color: Colors.blueGrey),
+                    ),
+                    IconButton(
+                        onPressed: () {},
+                        icon: const Icon(Icons.add_circle,
+                            color: Colors.greenAccent, size: 25)),
+                  ]),
+              Padding(
+                padding: const EdgeInsets.all(10),
+                child: ElevatedButton(
+                  onPressed: () {},
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: const Color(0xFF57FD5E),
+                    fixedSize: const Size(100, 20),
+                  ),
+                  child: const Text(
+                    "Add to Cart",
+                    style: TextStyle(fontSize: 12),
+                  ),
                 ),
-                IconButton(
-                    onPressed: () {},
-                    icon: const Icon(Icons.add_circle,
-                        color: Colors.greenAccent, size: 30)),
-              ]),
+              )
             ],
           ),
           SizedBox(
