@@ -9,7 +9,7 @@ class PostGres {
 
   static Future<List<Map<String, dynamic>>> getData() async {
     final data = await connection.query('SELECT * FROM public."Products"');
-    print("data: $data");
+    // print("data: $data");
 
     final resultList = data.map((column) => column.toColumnMap()).toList();
     return resultList;
@@ -19,7 +19,7 @@ class PostGres {
     final data = await connection.query(
         'SELECT * FROM public."Products" WHERE category = @category',
         substitutionValues: {'category': category});
-    print("catgory: $category");
+
     final resultList = data.map((column) => column.toColumnMap()).toList();
     return resultList;
   }

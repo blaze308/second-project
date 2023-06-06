@@ -43,16 +43,34 @@ class _SingleProductState extends State<SingleProduct> {
                 textStyle:
                     const TextStyle(fontWeight: FontWeight.w500, fontSize: 18)),
           ),
-          Padding(
-            padding: const EdgeInsets.only(top: 10, left: 10),
-            child: PriceText(
-              text: "GHC ${widget.snapshot.data[widget.index]["price"]}"
-                  .toString(),
-              textStyle: const TextStyle(
-                  fontSize: 20,
-                  fontWeight: FontWeight.bold,
-                  color: Color(0xFF869013)),
-            ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Padding(
+                padding: const EdgeInsets.only(top: 10, left: 10),
+                child: PriceText(
+                  text: "GHC ${widget.snapshot.data[widget.index]["price"]}"
+                      .toString(),
+                  textStyle: const TextStyle(
+                      fontSize: 20,
+                      fontWeight: FontWeight.bold,
+                      color: Color(0xFF869013)),
+                ),
+              ),
+              Row(children: [
+                IconButton(
+                    onPressed: () {},
+                    icon: const Icon(Icons.remove_circle,
+                        color: Colors.redAccent, size: 30)),
+                const Badge(
+                  child: Icon(Icons.shopping_cart, color: Colors.blueGrey),
+                ),
+                IconButton(
+                    onPressed: () {},
+                    icon: const Icon(Icons.add_circle,
+                        color: Colors.greenAccent, size: 30)),
+              ]),
+            ],
           ),
           SizedBox(
             width: double.maxFinite,
@@ -132,7 +150,7 @@ class _SingleProductState extends State<SingleProduct> {
                                             "GHC ${snapshot.data[index]["price"]}"
                                                 .toString()),
                                   ),
-                                )
+                                ),
                               ],
                             ),
                           ),
