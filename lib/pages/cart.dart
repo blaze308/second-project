@@ -25,7 +25,7 @@ class _CartState extends State<Cart> {
         ),
         Padding(
             padding: const EdgeInsets.all(5),
-            child: Container(
+            child: SizedBox(
               height: 60,
               width: double.maxFinite,
               child: ListView(
@@ -47,7 +47,7 @@ class _CartState extends State<Cart> {
                                   fit: BoxFit.cover,
                                 )),
                             SizedBox(
-                              width: 80,
+                              width: 100,
                               child: Padding(
                                 padding: const EdgeInsets.all(10),
                                 child: MediumText(
@@ -70,10 +70,11 @@ class _CartState extends State<Cart> {
                                   onPressed: () {},
                                   icon: const Icon(Icons.remove_circle,
                                       color: Colors.redAccent, size: 25)),
-                              const Badge(
-                                child: Icon(Icons.shopping_cart,
-                                    color: Colors.blueGrey),
-                              ),
+                              // const Badge(
+                              //   child: Icon(Icons.shopping_cart,
+                              //       color: Colors.blueGrey),
+                              // ),
+                              const Text("10"),
                               IconButton(
                                   onPressed: () {},
                                   icon: const Icon(Icons.add_circle,
@@ -90,32 +91,46 @@ class _CartState extends State<Cart> {
                   ]),
             )),
         Align(
-          alignment: Alignment.centerRight,
-          child: Container(
-            margin: const EdgeInsets.only(right: 10, top: 20),
-            height: 80,
-            width: 300,
-            decoration: const BoxDecoration(color: Color(0xFF79FF7E)),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                SizedBox(
-                    width: 150,
-                    child: Padding(
+            alignment: Alignment.centerRight,
+            child: Container(
+              margin: const EdgeInsets.only(right: 10, top: 20),
+              height: 60,
+              width: 300,
+              decoration: const BoxDecoration(color: Color(0xFF79FF7E)),
+              child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    SizedBox(
+                        width: 150,
+                        child: Padding(
+                          padding: const EdgeInsets.all(10),
+                          child: MediumText(
+                            text: "Total Amount of Items in Your Cart",
+                            maxLines: 3,
+                          ),
+                        )),
+                    Padding(
                       padding: const EdgeInsets.all(10),
-                      child: MediumText(
-                        text: "Total Amount of Items in Your Cart",
-                        maxLines: 3,
-                      ),
-                    )),
-                Padding(
-                  padding: const EdgeInsets.all(10),
-                  child: PriceText(text: "GHC 587932"),
-                )
-              ],
-            ),
+                      child: PriceText(text: "GHC 587932"),
+                    )
+                  ]),
+            )),
+        Align(
+          alignment: Alignment.centerLeft,
+          child: Padding(
+            padding: const EdgeInsets.only(left: 10, top: 20),
+            child: ElevatedButton(
+                onPressed: () {},
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: const Color(0xFF57FD5E),
+                  fixedSize: const Size(200, 40),
+                ),
+                child: const Text(
+                  "Proceed to Checkout",
+                  style: TextStyle(fontSize: 14, color: Colors.black),
+                )),
           ),
-        )
+        ),
       ]),
     );
   }

@@ -1,5 +1,6 @@
 import 'package:ecomm/db/postgres.dart';
 import 'package:ecomm/pages/add_product.dart';
+import 'package:ecomm/pages/auth.dart';
 import 'package:ecomm/pages/cart.dart';
 import 'package:ecomm/pages/my_account.dart';
 import 'package:ecomm/pages/single_product.dart';
@@ -230,11 +231,15 @@ class NavDrawer extends StatelessWidget {
                 const SizedBox(height: 10),
                 ListTile(
                     titleAlignment: ListTileTitleAlignment.center,
-                    leading: const Icon(Icons.logout,
+                    leading: const Icon(Icons.login,
                         color: Colors.black54, size: 35),
-                    onTap: () {},
+                    onTap: () {
+                      Navigator.pop(context);
+                      Navigator.of(context).push(MaterialPageRoute(
+                          builder: (context) => const AuthPage()));
+                    },
                     minLeadingWidth: 0,
-                    title: LargeText(text: "Logout")),
+                    title: LargeText(text: "Login")),
               ],
             ),
           )

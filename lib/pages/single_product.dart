@@ -77,17 +77,16 @@ class _SingleProductState extends State<SingleProduct> {
               Padding(
                 padding: const EdgeInsets.all(10),
                 child: ElevatedButton(
-                  onPressed: () {},
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: const Color(0xFF57FD5E),
-                    fixedSize: const Size(100, 20),
-                  ),
-                  child: const Text(
-                    "Add to Cart",
-                    style: TextStyle(fontSize: 12),
-                  ),
-                ),
-              )
+                    onPressed: () {},
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: const Color(0xFF57FD5E),
+                      fixedSize: const Size(100, 20),
+                    ),
+                    child: const Text(
+                      "Add to Cart",
+                      style: TextStyle(fontSize: 12),
+                    )),
+              ),
             ],
           ),
           SizedBox(
