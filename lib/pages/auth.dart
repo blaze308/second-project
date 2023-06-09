@@ -1,4 +1,6 @@
 import 'package:ecomm/main.dart';
+import 'package:ecomm/pages/recover_password.dart';
+import 'package:ecomm/widgets/large_text.dart';
 import 'package:flutter/material.dart';
 
 class AuthPage extends StatefulWidget {
@@ -10,86 +12,248 @@ class AuthPage extends StatefulWidget {
 
 class _AuthPageState extends State<AuthPage> {
   final formKey = GlobalKey<FormState>();
+  final _usernameController = TextEditingController();
+  final _emailController = TextEditingController();
+  final _passwordController = TextEditingController();
+  bool showLoginForm = true;
+  bool showSignupForm = false;
+
+  void showLoginFormOnly() {
+    setState(() {
+      showLoginForm = true;
+      showSignupForm = false;
+    });
+  }
+
+  void showSignupFormOnly() {
+    setState(() {
+      showLoginForm = false;
+      showSignupForm = true;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Container(
-      decoration: const BoxDecoration(
-          image: DecorationImage(
-              image: NetworkImage(
-                  "https://images.unsplash.com/photo-1492707892479-7bc8d5a4ee93?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Nnx8d2hpdGUlMjBzaG9wfGVufDB8MXwwfHx8MA%3D%3D&auto=format&fit=crop&w=500&q=60"),
-              opacity: 0.5,
-              fit: BoxFit.cover)),
-      child: Scaffold(
-        backgroundColor: Colors.transparent,
-        appBar: const MyAppBar(),
-        drawer: const NavDrawer(),
-        body: Padding(
-          padding: const EdgeInsets.all(25),
-          child: Form(
-              child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              TextFormField(
-                decoration: InputDecoration(
-                    labelText: "Username/Email Address*",
-                    contentPadding: const EdgeInsets.all(20),
-                    fillColor: Colors.white,
-                    filled: true,
-                    border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(10))),
-              ),
-              const SizedBox(height: 20),
-              TextFormField(
-                decoration: InputDecoration(
-                    labelText: "Password*",
-                    contentPadding: const EdgeInsets.all(20),
-                    fillColor: Colors.white,
-                    filled: true,
-                    border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(10))),
-              ),
-              const Align(
-                alignment: Alignment.centerRight,
-                child: Padding(
-                    padding: EdgeInsets.only(top: 10),
-                    child: Text(
-                      "Forgot Password?",
-                      style: TextStyle(color: Colors.white, fontSize: 14),
-                    )),
-              ),
-              Padding(
-                padding: const EdgeInsets.only(top: 20),
-                child: ElevatedButton(
-                  onPressed: () {},
-                  style: ElevatedButton.styleFrom(
-                      elevation: 10,
-                      shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(10)),
-                      backgroundColor: Colors.white,
-                      fixedSize: const Size(300, 60)),
-                  child: const Text(
-                    "Portal Access",
-                    style: TextStyle(color: Colors.black, fontSize: 20),
-                  ),
-                ),
-              ),
-              const Align(
-                alignment: Alignment.center,
-                child: Padding(
-                    padding: EdgeInsets.only(top: 20),
-                    child: Text(
-                      "Not a user? Create Account",
-                      style: TextStyle(
-                        color: Colors.white,
-                        fontSize: 15,
+        decoration: const BoxDecoration(
+            image: DecorationImage(
+                image: NetworkImage(
+                    "https://images.unsplash.com/photo-1492707892479-7bc8d5a4ee93?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Nnx8d2hpdGUlMjBzaG9wfGVufDB8MXwwfHx8MA%3D%3D&auto=format&fit=crop&w=500&q=60"),
+                opacity: 0.5,
+                fit: BoxFit.cover)),
+        child: Scaffold(
+          backgroundColor: Colors.transparent,
+          appBar: const MyAppBar(),
+          drawer: const NavDrawer(),
+          body: Center(
+            child: Container(
+              width: 360,
+              height: 440,
+              decoration: BoxDecoration(
+                  color: Colors.white, borderRadius: BorderRadius.circular(10)),
+              child: SingleChildScrollView(
+                child: Column(children: [
+                  Row(
+                    children: [
+                      TextButton(
+                        onPressed: showLoginFormOnly,
+                        style: TextButton.styleFrom(
+                            backgroundColor: const Color(0xff69F26E),
+                            fixedSize: const Size(180, 50),
+                            shape: const RoundedRectangleBorder(
+                                borderRadius: BorderRadius.only(
+                                    topLeft: Radius.circular(10)))),
+                        child: const Text(
+                          "Login",
+                          style: TextStyle(
+                              color: Colors.black,
+                              fontSize: 18,
+                              fontWeight: FontWeight.w400),
+                        ),
                       ),
-                    )),
+                      TextButton(
+                          onPressed: showSignupFormOnly,
+                          style: TextButton.styleFrom(
+                              backgroundColor: const Color(0xffEA6A6A),
+                              fixedSize: const Size(180, 50),
+                              shape: const RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.only(
+                                      topRight: Radius.circular(10)))),
+                          child: const Text(
+                            "Signup",
+                            style: TextStyle(
+                                color: Colors.white,
+                                fontSize: 18,
+                                fontWeight: FontWeight.w500),
+                          ))
+                    ],
+                  ),
+                  if (showLoginForm)
+                    Padding(
+                      padding: const EdgeInsets.only(left: 20, right: 20),
+                      child: Column(
+                        children: [
+                          const SizedBox(height: 50),
+                          const Align(
+                              alignment: Alignment.centerLeft,
+                              child: Text("Username/Email Address*")),
+                          Padding(
+                              padding: const EdgeInsets.only(top: 5),
+                              child: TextFormField(
+                                controller: _usernameController,
+                                decoration: InputDecoration(
+                                    contentPadding: const EdgeInsets.all(10),
+                                    fillColor: Colors.white,
+                                    filled: true,
+                                    border: OutlineInputBorder(
+                                        borderRadius:
+                                            BorderRadius.circular(10))),
+                              )),
+                          const SizedBox(height: 20),
+                          const Align(
+                              alignment: Alignment.centerLeft,
+                              child: Text("Password*")),
+                          Padding(
+                              padding: const EdgeInsets.only(top: 5),
+                              child: TextFormField(
+                                controller: _passwordController,
+                                decoration: InputDecoration(
+                                    contentPadding: const EdgeInsets.all(10),
+                                    fillColor: Colors.white,
+                                    filled: true,
+                                    border: OutlineInputBorder(
+                                        borderRadius:
+                                            BorderRadius.circular(10))),
+                              )),
+                          GestureDetector(
+                            onTap: () => Navigator.of(context).push(
+                                MaterialPageRoute(
+                                    builder: (context) =>
+                                        const PasswordRecovery())),
+                            child: const Padding(
+                                padding: EdgeInsets.only(top: 10),
+                                child: Align(
+                                  alignment: Alignment.centerRight,
+                                  child: Text("Forgot Password",
+                                      style:
+                                          TextStyle(color: Color(0xff60279A))),
+                                )),
+                          ),
+                          const SizedBox(height: 20),
+                          ElevatedButton(
+                            onPressed: () {},
+                            style: ElevatedButton.styleFrom(
+                                fixedSize: const Size(250, 60),
+                                backgroundColor: Colors.white,
+                                elevation: 10),
+                            child: LargeText(
+                              text: "Portal Access",
+                              textStyle: const TextStyle(
+                                  fontSize: 20,
+                                  fontWeight: FontWeight.w500,
+                                  color: Colors.black),
+                            ),
+                          ),
+                          GestureDetector(
+                            onTap: showSignupFormOnly,
+                            child: const Padding(
+                                padding: EdgeInsets.only(top: 10),
+                                child: Align(
+                                  alignment: Alignment.center,
+                                  child: Text("Not a user? Create Account",
+                                      style:
+                                          TextStyle(color: Color(0xff60279A))),
+                                )),
+                          ),
+                        ],
+                      ),
+                    ),
+                  if (showSignupForm)
+                    Padding(
+                      padding: const EdgeInsets.only(left: 20, right: 20),
+                      child: Column(
+                        children: [
+                          const SizedBox(height: 30),
+                          const Align(
+                              alignment: Alignment.centerLeft,
+                              child: Text("Username*")),
+                          Padding(
+                              padding: const EdgeInsets.only(top: 5),
+                              child: TextFormField(
+                                controller: _usernameController,
+                                decoration: InputDecoration(
+                                    contentPadding: const EdgeInsets.all(10),
+                                    fillColor: Colors.white,
+                                    filled: true,
+                                    border: OutlineInputBorder(
+                                        borderRadius:
+                                            BorderRadius.circular(10))),
+                              )),
+                          const SizedBox(height: 10),
+                          const Align(
+                              alignment: Alignment.centerLeft,
+                              child: Text("Email Address*")),
+                          Padding(
+                              padding: const EdgeInsets.only(top: 5),
+                              child: TextFormField(
+                                controller: _emailController,
+                                decoration: InputDecoration(
+                                    contentPadding: const EdgeInsets.all(10),
+                                    fillColor: Colors.white,
+                                    filled: true,
+                                    border: OutlineInputBorder(
+                                        borderRadius:
+                                            BorderRadius.circular(10))),
+                              )),
+                          const SizedBox(height: 10),
+                          const Align(
+                              alignment: Alignment.centerLeft,
+                              child: Text("Password*")),
+                          Padding(
+                              padding: const EdgeInsets.only(top: 5),
+                              child: TextFormField(
+                                controller: _passwordController,
+                                decoration: InputDecoration(
+                                    contentPadding: const EdgeInsets.all(10),
+                                    fillColor: Colors.white,
+                                    filled: true,
+                                    border: OutlineInputBorder(
+                                        borderRadius:
+                                            BorderRadius.circular(10))),
+                              )),
+                          const SizedBox(height: 20),
+                          ElevatedButton(
+                            onPressed: () {},
+                            style: ElevatedButton.styleFrom(
+                                fixedSize: const Size(250, 60),
+                                backgroundColor: Colors.white,
+                                elevation: 10),
+                            child: LargeText(
+                              text: "Create My Account",
+                              textStyle: const TextStyle(
+                                  fontSize: 20,
+                                  fontWeight: FontWeight.w500,
+                                  color: Colors.black),
+                            ),
+                          ),
+                          GestureDetector(
+                            onTap: showLoginFormOnly,
+                            child: const Padding(
+                                padding: EdgeInsets.only(top: 10),
+                                child: Align(
+                                  alignment: Alignment.center,
+                                  child: Text("Already a user? Login Here",
+                                      style:
+                                          TextStyle(color: Color(0xff60279A))),
+                                )),
+                          ),
+                        ],
+                      ),
+                    ),
+                ]),
               ),
-            ],
-          )),
-        ),
-      ),
-    );
+            ),
+          ),
+        ));
   }
 }

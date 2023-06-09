@@ -8,7 +8,9 @@ class PostGres {
   }
 
   static Future<List<Map<String, dynamic>>> getData() async {
-    final data = await connection.query('SELECT * FROM public."Products"');
+    final data = await connection
+        .query('SELECT * FROM public."Products" ORDER BY id DESC');
+
     // print("data: $data");
 
     final resultList = data.map((column) => column.toColumnMap()).toList();
