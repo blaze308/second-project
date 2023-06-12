@@ -1,3 +1,4 @@
+import 'package:ecomm/db/backend.dart';
 import 'package:ecomm/db/postgres.dart';
 import 'package:ecomm/pages/add_product.dart';
 import 'package:ecomm/pages/auth.dart';
@@ -55,7 +56,7 @@ class _MyAppState extends State<MyApp> {
                       LargeText(text: "Awesome Products to use in Eternity")),
             ),
             FutureBuilder(
-              future: PostGres.getData(),
+              future: NodeConnect.fetchData(),
               builder: (context, AsyncSnapshot snapshot) {
                 if (snapshot.connectionState == ConnectionState.waiting) {
                   return const Center(

@@ -57,14 +57,6 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.17.1"
-  convert:
-    dependency: transitive
-    description:
-      name: convert
-      sha256: "0f08b14755d163f6e2134cb58222dd25ea2a2ee8a195e53983d57c075324d592"
-      url: "https://pub.dev"
-    source: hosted
-    version: "3.1.1"
   crypto:
     dependency: transitive
     description:
@@ -107,14 +99,22 @@ packages:
     description: flutter
     source: sdk
     version: "0.0.0"
-  get:
+  http:
     dependency: "direct main"
     description:
-      name: get
-      sha256: "2ba20a47c8f1f233bed775ba2dd0d3ac97b4cf32fc17731b3dfc672b06b0e92a"
+      name: http
+      sha256: "4c3f04bfb64d3efd508d06b41b825542f08122d30bda4933fb95c069d22a4fa3"
       url: "https://pub.dev"
     source: hosted
-    version: "4.6.5"
+    version: "1.0.0"
+  http_parser:
+    dependency: transitive
+    description:
+      name: http_parser
+      sha256: "2aa08ce0341cc9b354a498388e30986515406668dbcc4f7c950c3e715496693b"
+      url: "https://pub.dev"
+    source: hosted
+    version: "4.0.2"
   js:
     dependency: transitive
     description:
@@ -131,14 +131,6 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "2.1.0"
-  logging:
-    dependency: transitive
-    description:
-      name: logging
-      sha256: "623a88c9594aa774443aa3eb2d41807a48486b5613e67599fb4c41c0ad47c340"
-      url: "https://pub.dev"
-    source: hosted
-    version: "1.2.0"
   matcher:
     dependency: transitive
     description:
@@ -163,22 +155,6 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.9.1"
-  mime:
-    dependency: transitive
-    description:
-      name: mime
-      sha256: e4ff8e8564c03f255408decd16e7899da1733852a9110a58fe6d1b817684a63e
-      url: "https://pub.dev"
-    source: hosted
-    version: "1.0.4"
-  nested:
-    dependency: transitive
-    description:
-      name: nested
-      sha256: "03bac4c528c64c95c722ec99280375a6f2fc708eec17c7b3f07253b626cd2a20"
-      url: "https://pub.dev"
-    source: hosted
-    version: "1.0.0"
   path:
     dependency: transitive
     description:
@@ -211,30 +187,6 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "2.6.1"
-  postgresql2:
-    dependency: "direct main"
-    description:
-      name: postgresql2
-      sha256: fec1114a03b3b201caade763fdf8251a2dd02dc7f2ff689802fe5a3edad17500
-      url: "https://pub.dev"
-    source: hosted
-    version: "1.0.4"
-  provider:
-    dependency: "direct main"
-    description:
-      name: provider
-      sha256: cdbe7530b12ecd9eb455bdaa2fcb8d4dad22e80b8afb4798b41479d5ce26847f
-      url: "https://pub.dev"
-    source: hosted
-    version: "6.0.5"
-  rikulo_commons:
-    dependency: transitive
-    description:
-      name: rikulo_commons
-      sha256: e8d22956ba4c9f3cfa7647a1b4cfd9a8516e6d69a978c9260c5316d332de5055
-      url: "https://pub.dev"
-    source: hosted
-    version: "5.2.2"
   sasl_scram:
     dependency: transitive
     description:
@@ -330,4 +282,3 @@ packages:
     version: "2.1.4"
 sdks:
   dart: ">=3.0.0 <4.0.0"
-  flutter: ">=1.16.0"

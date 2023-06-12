@@ -1,3 +1,4 @@
+import 'package:ecomm/db/backend.dart';
 import 'package:ecomm/main.dart';
 import 'package:ecomm/pages/recover_password.dart';
 import 'package:ecomm/widgets/large_text.dart';
@@ -34,12 +35,13 @@ class _AuthPageState extends State<AuthPage> {
 
   @override
   Widget build(BuildContext context) {
+    const opVal = 0.8;
     return Container(
         decoration: const BoxDecoration(
             image: DecorationImage(
                 image: NetworkImage(
                     "https://images.unsplash.com/photo-1492707892479-7bc8d5a4ee93?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Nnx8d2hpdGUlMjBzaG9wfGVufDB8MXwwfHx8MA%3D%3D&auto=format&fit=crop&w=500&q=60"),
-                opacity: 0.5,
+                opacity: 0.9,
                 fit: BoxFit.cover)),
         child: Scaffold(
           backgroundColor: Colors.transparent,
@@ -48,9 +50,10 @@ class _AuthPageState extends State<AuthPage> {
           body: Center(
             child: Container(
               width: 360,
-              height: 440,
+              height: 450,
               decoration: BoxDecoration(
-                  color: Colors.white, borderRadius: BorderRadius.circular(10)),
+                  color: Colors.white.withOpacity(opVal),
+                  borderRadius: BorderRadius.circular(10)),
               child: SingleChildScrollView(
                 child: Column(children: [
                   Row(
@@ -58,7 +61,8 @@ class _AuthPageState extends State<AuthPage> {
                       TextButton(
                         onPressed: showLoginFormOnly,
                         style: TextButton.styleFrom(
-                            backgroundColor: const Color(0xff69F26E),
+                            backgroundColor:
+                                const Color(0xff69F26E).withOpacity(opVal),
                             fixedSize: const Size(180, 50),
                             shape: const RoundedRectangleBorder(
                                 borderRadius: BorderRadius.only(
@@ -74,7 +78,8 @@ class _AuthPageState extends State<AuthPage> {
                       TextButton(
                           onPressed: showSignupFormOnly,
                           style: TextButton.styleFrom(
-                              backgroundColor: const Color(0xffEA6A6A),
+                              backgroundColor:
+                                  const Color(0xffEA6A6A).withOpacity(opVal),
                               fixedSize: const Size(180, 50),
                               shape: const RoundedRectangleBorder(
                                   borderRadius: BorderRadius.only(
@@ -103,7 +108,7 @@ class _AuthPageState extends State<AuthPage> {
                                 controller: _usernameController,
                                 decoration: InputDecoration(
                                     contentPadding: const EdgeInsets.all(10),
-                                    fillColor: Colors.white,
+                                    fillColor: Colors.white.withOpacity(opVal),
                                     filled: true,
                                     border: OutlineInputBorder(
                                         borderRadius:
@@ -116,10 +121,11 @@ class _AuthPageState extends State<AuthPage> {
                           Padding(
                               padding: const EdgeInsets.only(top: 5),
                               child: TextFormField(
+                                obscureText: true,
                                 controller: _passwordController,
                                 decoration: InputDecoration(
                                     contentPadding: const EdgeInsets.all(10),
-                                    fillColor: Colors.white,
+                                    fillColor: Colors.white.withOpacity(opVal),
                                     filled: true,
                                     border: OutlineInputBorder(
                                         borderRadius:
@@ -141,10 +147,21 @@ class _AuthPageState extends State<AuthPage> {
                           ),
                           const SizedBox(height: 20),
                           ElevatedButton(
-                            onPressed: () {},
+                            onPressed: () {
+                              String username = _usernameController.text;
+                              String email = _emailController.text;
+                              String password = _passwordController.text;
+                              String identifier =
+                                  username.isNotEmpty ? username : email;
+
+                              NodeConnect.login(identifier, password);
+                              // Navigator.of(context).push(MaterialPageRoute(
+                              //     builder: (context) => const MyApp()));
+                            },
                             style: ElevatedButton.styleFrom(
                                 fixedSize: const Size(250, 60),
-                                backgroundColor: Colors.white,
+                                backgroundColor:
+                                    Colors.white.withOpacity(opVal),
                                 elevation: 10),
                             child: LargeText(
                               text: "Portal Access",
@@ -183,7 +200,7 @@ class _AuthPageState extends State<AuthPage> {
                                 controller: _usernameController,
                                 decoration: InputDecoration(
                                     contentPadding: const EdgeInsets.all(10),
-                                    fillColor: Colors.white,
+                                    fillColor: Colors.white.withOpacity(opVal),
                                     filled: true,
                                     border: OutlineInputBorder(
                                         borderRadius:
@@ -199,7 +216,7 @@ class _AuthPageState extends State<AuthPage> {
                                 controller: _emailController,
                                 decoration: InputDecoration(
                                     contentPadding: const EdgeInsets.all(10),
-                                    fillColor: Colors.white,
+                                    fillColor: Colors.white.withOpacity(opVal),
                                     filled: true,
                                     border: OutlineInputBorder(
                                         borderRadius:
@@ -212,10 +229,11 @@ class _AuthPageState extends State<AuthPage> {
                           Padding(
                               padding: const EdgeInsets.only(top: 5),
                               child: TextFormField(
+                                obscureText: true,
                                 controller: _passwordController,
                                 decoration: InputDecoration(
                                     contentPadding: const EdgeInsets.all(10),
-                                    fillColor: Colors.white,
+                                    fillColor: Colors.white.withOpacity(opVal),
                                     filled: true,
                                     border: OutlineInputBorder(
                                         borderRadius:
@@ -223,10 +241,19 @@ class _AuthPageState extends State<AuthPage> {
                               )),
                           const SizedBox(height: 20),
                           ElevatedButton(
-                            onPressed: () {},
+                            onPressed: () {
+                              String username = _usernameController.text;
+                              String email = _emailController.text;
+                              String password = _passwordController.text;
+                              NodeConnect.signUp(username, email, password);
+                              setState(() {
+                                showLoginForm = true;
+                              });
+                            },
                             style: ElevatedButton.styleFrom(
                                 fixedSize: const Size(250, 60),
-                                backgroundColor: Colors.white,
+                                backgroundColor:
+                                    Colors.white.withOpacity(opVal),
                                 elevation: 10),
                             child: LargeText(
                               text: "Create My Account",
