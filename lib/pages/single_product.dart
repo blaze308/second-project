@@ -4,6 +4,7 @@ import 'package:ecomm/widgets/large_text.dart';
 import 'package:flutter/material.dart';
 import '../widgets/medium_text.dart';
 import '../widgets/price_text.dart';
+import '../widgets/app_bar.dart';
 
 class SingleProduct extends StatefulWidget {
   const SingleProduct({required this.snapshot, required this.index, super.key});

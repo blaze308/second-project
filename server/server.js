@@ -1,8 +1,10 @@
+require("dotenv").config();
 const express = require('express');
 const bcrypt = require("bcrypt");
 const cors = require('cors');
 const { Pool } = require('pg');
-require("dotenv").config();
+const jwt = require("jsonwebtoken");
+
 
 const app = express();
 const port = 5000;
@@ -22,6 +24,7 @@ app.use(express.json());
 //   console.log(req.originalUrl)
 //   next()
 // })
+
 
 //fetch data
 app.get('/data', (req, res) => {
@@ -65,29 +68,6 @@ app.post("/api/signup",  async (req, res) => {
     }
 })
 
-// //check if user exists
-// app.get("/api/signup/check", async (req, res) => {
-//   const  {email, username} = req.query;
-
-//   try {
-//     const query = 'SELECT * FROM public."Users" WHERE email = $1 OR username = $2';
-//     const result = await pool.query(query, [email, username]);
-
-//     if (result.rows.length > 0) {
-//       res.status(200).json({exists: "true"});
-//     }
-//     // res.status(200).send("OK")
-//     else {
-//       res.status(200).json({exists: "false"});
-//     }
-//   } 
-  
-//   catch (error) {
-//     console.error("Error executing query", error);
-//     res.sendStatus(500);
-//   }
-// })
-
 
 //login 
 app.post("/api/login", async (req, res) => {
@@ -114,7 +94,9 @@ const {identifier, password} = req.body;
       return;
     }
 
-    res.status(200).json({message: "Login successful"});
+    const token = jwt.sign({id: user.id}, "session", {expiresIn: "1h"})
+    console.log("token:" , token)
+    res.status(200).json({message: "Login successful", token});
 
 
   } catch (error) {

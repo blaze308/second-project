@@ -9,9 +9,14 @@ import 'package:ecomm/widgets/large_text.dart';
 import 'package:ecomm/widgets/medium_text.dart';
 import 'package:ecomm/widgets/price_text.dart';
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+
+import 'widgets/app_bar.dart';
+import 'widgets/nav_drawer.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+
   await PostGres.connect();
   runApp(MaterialApp(
     home: const MyApp(),
@@ -56,7 +61,7 @@ class _MyAppState extends State<MyApp> {
                       LargeText(text: "Awesome Products to use in Eternity")),
             ),
             FutureBuilder(
-              future: NodeConnect.fetchData(),
+              future: NodeConnect().fetchData(),
               builder: (context, AsyncSnapshot snapshot) {
                 if (snapshot.connectionState == ConnectionState.waiting) {
                   return const Center(
@@ -155,97 +160,7 @@ class _MyAppState extends State<MyApp> {
   }
 }
 
-class MyAppBar extends StatelessWidget implements PreferredSizeWidget {
-  const MyAppBar({
-    super.key,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    return AppBar(
-        title: LargeText(text: "Awesome Store"),
-        backgroundColor: Colors.white,
-        iconTheme: const IconThemeData(color: Colors.black54, size: 30));
-  }
-
-  @override
-  Size get preferredSize => const Size.fromHeight(kToolbarHeight);
-  // Size get preferredSize => throw UnimplementedError();
-}
-
-class NavDrawer extends StatelessWidget {
-  const NavDrawer({
-    super.key,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    return Drawer(
-      backgroundColor: Colors.white,
-      child: ListView(
-        children: [
-          UserAccountsDrawerHeader(
-            currentAccountPicture: const CircleAvatar(
-                backgroundColor: Colors.white,
-                child: Icon(Icons.person, color: Colors.blueGrey)),
-            accountName: MediumText(text: "John Doe"),
-            accountEmail: MediumText(text: "johndoe@email.com"),
-            decoration: const BoxDecoration(color: Colors.blueGrey),
-          ),
-          Container(
-            width: double.maxFinite,
-            padding: const EdgeInsets.only(left: 10, top: 10),
-            child: Column(
-              children: [
-                ListTile(
-                    titleAlignment: ListTileTitleAlignment.center,
-                    leading:
-                        const Icon(Icons.home, color: Colors.black54, size: 35),
-                    onTap: () => Navigator.of(context).pushReplacement(
-                        MaterialPageRoute(builder: (context) => const MyApp())),
-                    minLeadingWidth: 0,
-                    title: LargeText(text: "Home")),
-                const SizedBox(height: 10),
-                ListTile(
-                    titleAlignment: ListTileTitleAlignment.center,
-                    leading: const Icon(Icons.shopping_cart_checkout,
-                        color: Colors.black54, size: 35),
-                    onTap: () {
-                      Navigator.pop(context);
-                      Navigator.of(context).push(MaterialPageRoute(
-                          builder: (context) => const Cart()));
-                    },
-                    minLeadingWidth: 0,
-                    title: LargeText(text: "Cart")),
-                const SizedBox(height: 10),
-                ListTile(
-                    titleAlignment: ListTileTitleAlignment.center,
-                    leading: const Icon(Icons.person,
-                        color: Colors.black54, size: 35),
-                    onTap: () {
-                      Navigator.pop(context);
-                      Navigator.of(context).push(MaterialPageRoute(
-                          builder: (context) => const MyAccount()));
-                    },
-                    minLeadingWidth: 0,
-                    title: LargeText(text: "My Account")),
-                const SizedBox(height: 10),
-                ListTile(
-                    titleAlignment: ListTileTitleAlignment.center,
-                    leading: const Icon(Icons.login,
-                        color: Colors.black54, size: 35),
-                    onTap: () {
-                      Navigator.pop(context);
-                      Navigator.of(context).push(MaterialPageRoute(
-                          builder: (context) => const AuthPage()));
-                    },
-                    minLeadingWidth: 0,
-                    title: LargeText(text: "Login")),
-              ],
-            ),
-          )
-        ],
-      ),
-    );
-  }
+Future<String?> getToken() async {
+  final prefs = await SharedPreferences.getInstance();
+  return prefs.getString("jwtToken");
 }

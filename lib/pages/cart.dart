@@ -2,8 +2,9 @@ import 'package:ecomm/main.dart';
 import 'package:ecomm/widgets/large_text.dart';
 import 'package:ecomm/widgets/price_text.dart';
 import 'package:flutter/material.dart';
-
 import '../widgets/medium_text.dart';
+import '../widgets/nav_drawer.dart';
+import '../widgets/app_bar.dart';
 
 class Cart extends StatefulWidget {
   const Cart({super.key});

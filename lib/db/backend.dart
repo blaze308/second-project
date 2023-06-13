@@ -1,8 +1,9 @@
 import "dart:convert";
 import "package:http/http.dart" as http;
+import "package:shared_preferences/shared_preferences.dart";
 
 class NodeConnect {
-  static Future<List<dynamic>> fetchData() async {
+  Future<List<dynamic>> fetchData() async {
     final response = await http.get(Uri.parse("http://10.0.2.2:5000/data"));
 
     if (response.statusCode == 200) {
@@ -13,8 +14,7 @@ class NodeConnect {
     }
   }
 
-  static Future<void> signUp(
-      String username, String email, String password) async {
+  Future<void> signUp(String username, String email, String password) async {
     const url = "http://10.0.2.2:5000/api/signup";
     final body = {"username": username, "email": email, "password": password};
 
@@ -38,7 +38,7 @@ class NodeConnect {
   }
 
   //login
-  static Future<void> login(String identifier, String password) async {
+  Future<void> login(String identifier, String password) async {
     final body = jsonEncode({
       "identifier": identifier,
       "password": password,
@@ -53,6 +53,12 @@ class NodeConnect {
 
     //handle response
     final data = jsonDecode(response.body);
+
+    //jwt
+    final token = data["token"];
+    SharedPreferences preferences = await SharedPreferences.getInstance();
+    preferences.setString("jwtToken", token);
+
     if (response.statusCode == 200) {
       print("Login successful: ${data['message']}");
     } else {

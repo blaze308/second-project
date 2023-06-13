@@ -4,6 +4,9 @@ import 'package:ecomm/pages/recover_password.dart';
 import 'package:ecomm/widgets/large_text.dart';
 import 'package:flutter/material.dart';
 
+import '../widgets/nav_drawer.dart';
+import '../widgets/app_bar.dart';
+
 class AuthPage extends StatefulWidget {
   const AuthPage({super.key});
 
@@ -153,8 +156,7 @@ class _AuthPageState extends State<AuthPage> {
                               String password = _passwordController.text;
                               String identifier =
                                   username.isNotEmpty ? username : email;
-
-                              NodeConnect.login(identifier, password);
+                              NodeConnect().login(identifier, password);
                               // Navigator.of(context).push(MaterialPageRoute(
                               //     builder: (context) => const MyApp()));
                             },
@@ -245,7 +247,7 @@ class _AuthPageState extends State<AuthPage> {
                               String username = _usernameController.text;
                               String email = _emailController.text;
                               String password = _passwordController.text;
-                              NodeConnect.signUp(username, email, password);
+                              NodeConnect().signUp(username, email, password);
                               setState(() {
                                 showLoginForm = true;
                               });

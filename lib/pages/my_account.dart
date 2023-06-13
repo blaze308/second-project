@@ -1,6 +1,8 @@
 import 'package:ecomm/main.dart';
 import 'package:flutter/material.dart';
 
+import '../widgets/nav_drawer.dart';
+
 class MyAccount extends StatefulWidget {
   const MyAccount({super.key});
 
